@@ -2,29 +2,27 @@ class ArticleManager {
     constructor() {
         const currentDate = new Date();
         this.articles = [];
-        this.articlesToShow = 10; // How many articles to show by default
+        this.articlesToShow = 10; // Default: how many articles to show initially
 
-        // Get current year and month from the system's date
-        this.currentYear = currentDate.getFullYear();  // Current year
-        this.currentMonth = currentDate.getMonth();   // Current month (0-based, so January is 0)
+        // Get current year and month
+        this.currentYear = currentDate.getFullYear();
+        this.currentMonth = currentDate.getMonth(); // (0-based)
 
-        // Bind the search function to this instance
-        this.debouncedSearch = this.debounce(this.searchArticles.bind(this), 500); // 500ms delay
+        // Bind the search function to this instance with debounce (500ms)
+        this.debouncedSearch = this.debounce(this.searchArticles.bind(this), 500);
     }
 
-    // Load articles dynamically from the `index.js` file
+    // Load articles dynamically from index.js
     async loadArticles() {
-        const articleIndexPath = `/article/${this.currentYear}/${this.getMonthName(this.currentMonth)}/index.js`; // Path to index.js
+        const articleIndexPath = `/article/${this.currentYear}/${this.getMonthName(this.currentMonth)}/index.js`;
 
         try {
-            // Dynamically load the index.js file
             await this.loadScriptDynamically(articleIndexPath);
 
             // Assuming index.js defines a global variable `articles`
             if (window.articles && window.articles.length > 0) {
                 this.articles = window.articles;
                 this.displayArticles(this.articles); // Show all articles initially
-                this.applyCurrentThemeToNewContent(); // Apply current theme after loading articles
             } else {
                 console.error("No articles found in index.js");
             }
@@ -41,12 +39,12 @@ class ArticleManager {
             scriptElement.async = true;
 
             scriptElement.onload = () => {
-                scriptElement.remove(); // Successfully loaded, remove the script to free memory
+                scriptElement.remove(); // Successfully loaded, remove script to free memory
                 resolve();
             };
 
             scriptElement.onerror = (error) => {
-                scriptElement.remove(); // Ensure script is removed even on error
+                scriptElement.remove(); // Ensure script is removed on error
                 reject(error);
             };
 
@@ -55,7 +53,7 @@ class ArticleManager {
         });
     }
 
-    // Display the list of articles
+    // Display list of articles
     displayArticles(articles) {
         const articlesContainer = document.getElementById('articlesContainer');
         articlesContainer.innerHTML = ''; // Clear previous content
@@ -65,7 +63,7 @@ class ArticleManager {
             return;
         }
 
-        // Show each article as a card with title, description, author, and "Read More" button
+        // Display each article as a card
         articles.forEach((article, index) => {
             const articleDiv = document.createElement('div');
             articleDiv.className = 'article';
@@ -78,25 +76,16 @@ class ArticleManager {
             articlesContainer.appendChild(articleDiv);
         });
 
-        // Add event listeners to the "Read More" buttons
-        document.querySelectorAll('.read-more').forEach((button) => {
-            button.addEventListener('click', (event) => {
-                const articleIndex = event.target.getAttribute('data-index');
-                const fullContentPath = this.articles[articleIndex].fullContentPath;
+        // Add event listeners to "Read More" buttons
+        document.querySelectorAll('.read-more').forEach((button, filteredIndex) => {
+            button.addEventListener('click', () => {
+                const fullContentPath = articles[filteredIndex].fullContentPath;
                 this.loadFullArticle(fullContentPath);
             });
         });
 
-        // Enable/Disable the buttons based on current month and year
+        // Enable/disable navigation buttons based on current month and year
         this.updateNavigationButtons();
-    }
-
-    // Apply current theme to newly loaded content
-    applyCurrentThemeToNewContent() {
-        const currentTheme = document.body.getAttribute('data-theme'); // Check current theme (light or dark)
-        if (currentTheme) {
-            applyTheme(currentTheme); // Reapply the theme to the newly loaded content
-        }
     }
 
     // Load the full article (HTML file) when "Read More" is clicked
@@ -123,16 +112,13 @@ class ArticleManager {
                     ${htmlContent}
                 `;
 
-                fullArticleContainer.style.display = 'block'; // Show the full article container
+                fullArticleContainer.style.display = 'block'; // Show full article container
                 document.getElementById('articlesContainer').style.display = 'none'; // Hide article list
 
-                // Add event listener to the close button
+                // Add event listener to "Close" button
                 document.getElementById('closeArticle').addEventListener('click', () => {
                     this.closeFullArticle();
                 });
-
-                // Reapply theme to the loaded full article content
-                this.applyCurrentThemeToNewContent();
             })
             .catch(error => {
                 console.error("Error loading full article:", error);
@@ -151,7 +137,7 @@ class ArticleManager {
         return months[monthIndex];
     }
 
-    // Move to the next month and load the corresponding articles
+    // Move to the next month and load corresponding articles
     nextMonth() {
         if (this.currentMonth < 11) {
             this.currentMonth++;
@@ -162,7 +148,7 @@ class ArticleManager {
         this.loadArticles();
     }
 
-    // Move to the previous month and load the corresponding articles
+    // Move to the previous month and load corresponding articles
     previousMonth() {
         if (this.currentMonth > 0) {
             this.currentMonth--;
@@ -173,7 +159,7 @@ class ArticleManager {
         this.loadArticles();
     }
 
-    // Update the "Next" and "Previous" buttons based on current month and year
+    // Update "Next" and "Previous" buttons based on current month/year
     updateNavigationButtons() {
         const nextButton = document.getElementById('nextButton');
         const prevButton = document.getElementById('prevButton');
@@ -212,13 +198,22 @@ class ArticleManager {
         return matches > 0;
     }
 
-    // Search articles with custom fuzzy matching
+    // Improved search function
     searchArticles(query) {
-        // Filter articles that match the query
-        const matchedArticles = this.articles.filter(article => {
-            const keywords = article.keywords.join(' ');
-            return this.fuzzyMatch(query, article.title) || this.fuzzyMatch(query, keywords);
-        });
+        // Define a threshold for "long" keywords (e.g., 10 characters)
+        const MAX_KEYWORD_LENGTH = 10;
+
+        // Process search query into individual keywords (split by spaces)
+        const queryWords = query.toLowerCase().split(' ').filter(word => word.length <= MAX_KEYWORD_LENGTH);
+
+        // Filter articles based on matching keywords
+        const matchedArticles = this.articles.filter(article => 
+            queryWords.some(word => 
+                article.title.toLowerCase().includes(word) ||
+                article.description.toLowerCase().includes(word) ||
+                article.author.toLowerCase().includes(word)
+            )
+        );
 
         // Display the filtered articles
         this.displayArticles(matchedArticles);
@@ -243,15 +238,9 @@ window.onload = () => {
     const searchInput = document.getElementById('searchInput');
     if (searchInput) {
         searchInput.addEventListener('input', (event) => {
-            const searchQuery = event.target.value;
-            articleManager.debouncedSearch(searchQuery); // Trigger search with delay
+            articleManager.debouncedSearch(event.target.value);
         });
     }
-
-    // Attach event listeners to buttons (optional if navigation is needed)
-    document.getElementById('nextButton').addEventListener('click', () => articleManager.nextMonth());
-    document.getElementById('prevButton').addEventListener('click', () => articleManager.previousMonth());
 };
-
 
 export default ArticleManager;

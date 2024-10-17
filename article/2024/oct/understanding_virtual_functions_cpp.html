@@ -1,0 +1,152 @@
+<div class="content">
+    <h1>Understanding Virtual Functions in C++</h1>
+
+    <div>
+        <h2>Introduction</h2>
+        <p>A <strong>virtual function</strong> in C++ is a function that is defined in the base class and is intended to be overridden in derived classes. Virtual functions allow for dynamic binding, meaning that the function that gets called depends on the type of object pointed to, not the type of the pointer. This feature is a key part of achieving <em>polymorphism</em> in object-oriented programming.</p>
+    </div>
+
+    <div>
+        <h2>Example of Virtual Functions</h2>
+        <p>Below is an example demonstrating virtual functions in C++. Each Marvel hero is a class, and they perform different actions when the action method is called. Despite the different actions, they all share the same method signature, allowing polymorphism.</p>
+
+        <pre><code class="cpp">
+#include &lt;iostream&gt;
+
+class MarvelHero {
+public:
+    // Virtual function to allow dynamic dispatch
+    virtual void action() {
+        std::cout &lt;&lt; "The hero is ready for action!" &lt;&lt; std::endl;
+    }
+    virtual ~MarvelHero() {} // Virtual destructor
+};
+
+class IronMan : public MarvelHero {
+public:
+    // Override action() method for Iron Man
+    void action() override {
+        std::cout &lt;&lt; "Iron Man shoots repulsor beams!" &lt;&lt; std::endl;
+    }
+};
+
+class Hulk : public MarvelHero {
+public:
+    // Override action() method for Hulk
+    void action() override {
+        std::cout &lt;&lt; "Hulk smashes everything!" &lt;&lt; std::endl;
+    }
+};
+
+class CaptainAmerica : public MarvelHero {
+public:
+    // Override action() method for Captain America
+    void action() override {
+        std::cout &lt;&lt; "Captain America throws his shield!" &lt;&lt; std::endl;
+    }
+};
+
+int main() {
+    // Create objects of derived classes
+    MarvelHero* hero1 = new IronMan();
+    MarvelHero* hero2 = new Hulk();
+    MarvelHero* hero3 = new CaptainAmerica();
+
+    // Call action method on each hero (demonstrates polymorphism)
+    hero1-&gt;action(); // Iron Man's action
+    hero2-&gt;action(); // Hulk's action
+    hero3-&gt;action(); // Captain America's action
+
+    // Clean up
+    delete hero1;
+    delete hero2;
+    delete hero3;
+
+    return 0;
+}
+        </code></pre>
+
+        <p>This code demonstrates how a virtual function works in C++. Each hero class overrides the `action()` method to perform a different action, but all use the same base class pointer to call the appropriate function. This is the essence of <strong>polymorphism</strong> in C++.</p>
+    </div>
+</div>
+
+<style>
+    /* Scoped styles for the content */
+    .content {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+    }
+
+    .content h1 {
+        color: #2c3e50;
+    }
+
+    .content h2 {
+        color: #34495e;
+        margin-top: 20px;
+    }
+
+    .content p {
+        color: #2c3e50;
+    }
+
+    /* Style for the code block */
+    .content pre {
+        background-color: #f4f4f4;
+        padding: 15px;
+        border-radius: 5px;
+        overflow-x: auto;
+        white-space: pre-wrap;
+    }
+
+    .content code {
+        color: #d35400; /* Variable values */
+        font-size: 1.1rem;
+    }
+
+    /* Styling for keywords and method names */
+    .content .cpp .keyword {
+        color: #2980b9; /* C++ keywords */
+        font-weight: bold;
+    }
+
+    .content .cpp .function {
+        color: #e74c3c; /* Function names */
+    }
+
+    .content .cpp .type {
+        color: #9b59b6; /* Types and classes */
+    }
+
+    /* Add color for class names */
+    .content .cpp .class-name {
+        color: #27ae60; /* Class names */
+        font-weight: bold;
+    }
+
+    /* Styling for comments */
+    .content .cpp .comment {
+        color: #95a5a6; /* Comments */
+        font-style: italic;
+    }
+
+    /* Make the action() method standout in the output */
+    .content .cpp .method {
+        color: #f39c12;
+    }
+
+    /* For variable declarations */
+    .content .cpp .variable {
+        color: #f1c40f; /* Variables */
+    }
+
+    /* Link styling */
+    .content a {
+        color: #2980b9;
+        text-decoration: none;
+    }
+
+    .content a:hover {
+        text-decoration: underline;
+    }
+</style>

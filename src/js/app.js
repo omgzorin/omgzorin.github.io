@@ -14,3 +14,4 @@ class App {
 
 // Initialize the app
 const app = new App();
+
