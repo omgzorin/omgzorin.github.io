@@ -8,9 +8,9 @@
 /* Body styling */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    color: #333;
-    padding-top: 50px; /* Space for the fixed header */
+    background-color: #000000;
+    padding-top: 50px;
+    /* Space for the fixed header */
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -21,13 +21,18 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: linear-gradient(to right, #4B1F65, #00B0B9); /* Purple to Green gradient */
+    background: linear-gradient(to right, #A100FF, #0a199e);
+    /* Purple to Green gradient */
     color: white;
     text-indent: 10px;
     position: fixed;
     top: 0;
     left: 0;
     z-index: 9999;
+}
+
+.header>h1 {
+    font-size: 20px;
 }
 
 /* Menu button (hamburger) styling */
@@ -39,7 +44,7 @@ body {
     flex-direction: column;
 }
 
-.menu > hr {
+.menu>hr {
     height: 2px;
     width: 20px;
     margin: 2px;
@@ -47,15 +52,36 @@ body {
     background-color: white;
 }
 
+.nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    transition-duration: 0.5s;
+    background: linear-gradient(to right, #A100FF, #0089FF);
+    border-top: 2px solid black;
+}
+
+
 /* Article container styling */
 #articlesContainer {
     padding: 20px;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    /* transition: background-color 0.3s ease, color 0.3s ease;
+     */
+
+
 }
 
 /* Article card styling */
 .article {
-    background-color: white;
+    background: black;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
@@ -65,7 +91,7 @@ body {
 
 /* Article titles and content */
 .article h2 {
-    color: #333;
+    color: white;
     font-size: 1.5rem;
     margin-bottom: 10px;
 }
@@ -74,11 +100,12 @@ body {
     font-size: 16px;
     line-height: 1.5;
     margin-bottom: 10px;
+    color: white;
 }
 
 /* Read more button styling */
 .article .read-more {
-    background-color: #00B0B9;
+    background-color: #0d56dd;
     color: white;
     border: none;
     padding: 10px 15px;
@@ -87,22 +114,21 @@ body {
     transition: background-color 0.3s ease;
 }
 
-.article .read-more:hover {
-    background-color: #008A91; /* Slightly darker on hover */
-}
 
 /* Full article container styling */
 #fullArticleContainer {
     padding: 40px;
-    background-color: white;
+    background-color: black;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    display: none; /* Hidden by default */
+    display: none;
+    /* Hidden by default */
     position: absolute;
-    top: 50px; /* Offset to account for the fixed header */
+    top: 50px;
+    /* Offset to account for the fixed header */
     left: 0;
     width: 100%;
-    min-height: calc(100vh - 50px); /* Fill the viewport while accounting for the header */
+    min-height: calc(100vh - 50px);
+    /* Fill the viewport while accounting for the header */
     z-index: 1000;
     line-height: 1.5;
 }
@@ -118,9 +144,6 @@ body {
     margin-bottom: 20px;
 }
 
-#closeArticle:hover {
-    background-color: #0c8eda;
-}
 
 /* Responsive improvements */
 @media (max-width: 768px) {
@@ -133,17 +156,19 @@ body {
     }
 
     .header {
-        height: 60px; /* Slightly larger header on small screens */
+        height: 60px;
+        /* Slightly larger header on small screens */
     }
 
-    .menu > hr {
+    .menu>hr {
         width: 18px;
     }
 
     /* Make search input and button more responsive */
     #searchInput {
         width: 60%;
-        font-size: 14px; /* Smaller font size */
+        font-size: 14px;
+        /* Smaller font size */
     }
 
     /* Flexbox layout for search input and button to stack vertically on smaller screens */
@@ -168,10 +193,29 @@ body {
 /* Search input styling */
 #searchInput {
     text-indent: 10px;
-    height:25px;
+    height: 25px;
     font-size: 16px;
     width: 150px;
     border-radius: 5px;
-    border: 1px solid #ccc;
+}
+
+.content {
+    background-color: black;
+    color: white;
+}
+
+/* Style for the code block */
+.content pre {
+    background-color: #000000;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+}
+
+.content code {
+    color: #ffffff;
+    /* Variable values */
+    font-size: 1.1rem;
 }
 
