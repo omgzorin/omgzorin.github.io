@@ -1,14 +1,14 @@
 <div class="content">
     <h1>Understanding Virtual Functions in C++</h1>
 
-    <div>
+    <div class="section">
         <h2>Introduction</h2>
         <p>A <strong>virtual function</strong> in C++ is a function that is defined in the base class and is intended to be overridden in derived classes. Virtual functions allow for dynamic binding, meaning that the function that gets called depends on the type of object pointed to, not the type of the pointer. This feature is a key part of achieving <em>polymorphism</em> in object-oriented programming.</p>
     </div>
 
-    <div>
+    <div class="section">
         <h2>Example of Virtual Functions</h2>
-        <p>Below is an example demonstrating virtual functions in C++. Each Marvel hero is a class, and they perform different actions when the action method is called. Despite the different actions, they all share the same method signature, allowing polymorphism.</p>
+        <p>Below is an example demonstrating virtual functions in C++. Each Marvel hero is a class, and they perform different actions when the <code>action</code> method is called. Despite the different actions, they all share the same method signature, allowing polymorphism.</p>
 
         <pre><code class="cpp">
 #include &lt;iostream&gt;
@@ -66,6 +66,6 @@ int main() {
 }
         </code></pre>
 
-        <p>This code demonstrates how a virtual function works in C++. Each hero class overrides the `action()` method to perform a different action, but all use the same base class pointer to call the appropriate function. This is the essence of <strong>polymorphism</strong> in C++.</p>
+        <p>This code demonstrates how a virtual function works in C++. Each hero class overrides the <code>action()</code> method to perform a different action, but all use the same base class pointer to call the appropriate function. This is the essence of <strong>polymorphism</strong> in C++.</p>
     </div>
 </div>

@@ -129,7 +129,7 @@ class ArticleManager {
     closeFullArticle() {
         document.getElementById('fullArticleContainer').style.display = 'none'; // Hide full article
         document.getElementById('articlesContainer').style.display = 'block'; // Show articles list again
-        
+
         // Clear the search query when closing the full article
         const searchInput = document.getElementById('searchInput');
         if (searchInput) {
@@ -212,8 +212,8 @@ class ArticleManager {
         const queryWords = query.toLowerCase().split(' ').filter(word => word.length <= MAX_KEYWORD_LENGTH);
 
         // Filter articles based on matching keywords
-        const matchedArticles = this.articles.filter(article => 
-            queryWords.some(word => 
+        const matchedArticles = this.articles.filter(article =>
+            queryWords.some(word =>
                 article.title.toLowerCase().includes(word) ||
                 article.description.toLowerCase().includes(word) ||
                 article.author.toLowerCase().includes(word)
@@ -246,6 +246,10 @@ window.onload = () => {
             articleManager.debouncedSearch(event.target.value);
         });
     }
+    localStorage.clear();  // Clears all localStorage items
+    sessionStorage.clear(); // Clears all sessionStorage items
+
+
 };
 
 export default ArticleManager;
