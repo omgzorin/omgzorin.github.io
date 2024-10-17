@@ -7,6 +7,9 @@ class ArticleManager {
         // Get current year and month from the system's date
         this.currentYear = currentDate.getFullYear();  // Current year
         this.currentMonth = currentDate.getMonth();   // Current month (0-based, so January is 0)
+
+        // Bind the search function to this instance
+        this.debouncedSearch = this.debounce(this.searchArticles.bind(this), 500); // 500ms delay
     }
 
     // Load articles dynamically from the `index.js` file
@@ -20,7 +23,7 @@ class ArticleManager {
             // Assuming index.js defines a global variable `articles`
             if (window.articles && window.articles.length > 0) {
                 this.articles = window.articles;
-                this.displayArticles();
+                this.displayArticles(this.articles); // Show all articles initially
                 this.applyCurrentThemeToNewContent(); // Apply current theme after loading articles
             } else {
                 console.error("No articles found in index.js");
@@ -53,7 +56,7 @@ class ArticleManager {
     }
 
     // Display the list of articles
-    displayArticles() {
+    displayArticles(articles) {
         const articlesContainer = document.getElementById('articlesContainer');
         articlesContainer.innerHTML = ''; // Clear previous content
 
@@ -63,7 +66,7 @@ class ArticleManager {
         }
 
         // Show each article as a card with title, description, author, and "Read More" button
-        this.articles.forEach((article, index) => {
+        articles.forEach((article, index) => {
             const articleDiv = document.createElement('div');
             articleDiv.className = 'article';
             articleDiv.innerHTML = `
@@ -187,6 +190,48 @@ class ArticleManager {
             prevButton.disabled = false;
         }
     }
+
+    // Custom fuzzy matching function (no external libraries)
+    fuzzyMatch(query, text) {
+        query = query.toLowerCase().trim();
+        text = text.toLowerCase();
+
+        let score = 0;
+        let matches = 0;
+
+        // Split query into individual words and compare each one
+        const queryWords = query.split(' ');
+        queryWords.forEach(word => {
+            if (text.includes(word)) {
+                matches++;
+                score += word.length;  // Score based on length of matched word
+            }
+        });
+
+        // Return true if any matches were found
+        return matches > 0;
+    }
+
+    // Search articles with custom fuzzy matching
+    searchArticles(query) {
+        // Filter articles that match the query
+        const matchedArticles = this.articles.filter(article => {
+            const keywords = article.keywords.join(' ');
+            return this.fuzzyMatch(query, article.title) || this.fuzzyMatch(query, keywords);
+        });
+
+        // Display the filtered articles
+        this.displayArticles(matchedArticles);
+    }
+
+    // Debounce function to delay search
+    debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func(...args), delay);
+        };
+    }
 }
 
 // Initialize the ArticleManager and load articles
@@ -194,9 +239,19 @@ window.onload = () => {
     const articleManager = new ArticleManager();
     articleManager.loadArticles();
 
-    // Attach event listeners to buttons
+    // Attach event listeners to the search input
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', (event) => {
+            const searchQuery = event.target.value;
+            articleManager.debouncedSearch(searchQuery); // Trigger search with delay
+        });
+    }
+
+    // Attach event listeners to buttons (optional if navigation is needed)
     document.getElementById('nextButton').addEventListener('click', () => articleManager.nextMonth());
     document.getElementById('prevButton').addEventListener('click', () => articleManager.previousMonth());
 };
+
 
 export default ArticleManager;
