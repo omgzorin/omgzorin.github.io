@@ -1,23 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="A blog featuring tech articles, tutorials, and more from OMG Zorin. Learn about Zorin OS, Linux, and other open-source technologies.">
+    <meta name="keywords" content="Zorin OS, Linux, Open Source, Blog, Technology, Tutorials, OMG Zorin">
+    <meta name="author" content="Chauhan Pruthviraj">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph Meta Tags for Social Media -->
+    <meta property="og:title" content="OMG Zorin Blog">
+    <meta property="og:description" content="Tech articles, tutorials, and insights on Zorin OS, Linux, and open-source technologies.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://omgzorin.github.io/">
+    <meta property="og:image" content="https://omgzorin.github.io/images/og-image.jpg"> <!-- Replace with your image -->
+    <meta property="og:site_name" content="OMG Zorin">
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="OMG Zorin Blog">
+    <meta name="twitter:description" content="Explore tech articles on Zorin OS, Linux, and other open-source topics.">
+    <meta name="twitter:image" content="https://omgzorin.github.io/images/twitter-card.jpg">
+
+    <!-- Mobile Optimization -->
+    <meta name="theme-color" content="#333">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <title>OMG Zorin</title>
+
+    <!-- CSS -->
     <link rel="stylesheet" href="src/css/style.css">
+
+    <!-- Favicon -->
+    <link rel="icon" href="https://omgzorin.github.io/favicon.ico" type="image/x-icon">
 </head>
+
 <body>
 
-    <header>
-        <h1>My Blog</h1>
+    <header class="header">
+        <h1>OMG Zorin</h1>
+
+        <div class="menu" onclick="app.toggleNav()">
+            <hr />
+            <hr />
+            <hr />
+        </div>
     </header>
 
-    <div id="articlesContainer"></div> <!-- Article list goes here -->
+    <!-- Navigation Menu -->
+    <nav class="nav">
+        
+    </nav>
 
-    <div id="fullArticleContainer" style="display: none;"></div> <!-- Full article content here -->
+    <main class="main">
+        <article class="article">
+            <section class="section">
+                <div id="articlesContainer"></div>
+                <div id="fullArticleContainer" style="display: none;"></div>
+                
+                <!-- Navigation buttons -->
+                <button id="prevButton">Previous</button>
+                <button id="nextButton">Next</button>
+                
 
-    <script src="src/js/article.js" type="module"></script>
-    <script src="src/js/main.js" type="module"></script>
+            </section>
+        </article>
+    </main>
+
+    <footer class="footer"></footer>
+
+    <!-- External JavaScript -->
+     <!-- <script src="src/js/article.js" type="module"></script> -->
+     <script src="src/js/main.js" type="module"></script>
+    <script src="src/js/app.js"></script>
 
 </body>
+
 </html>

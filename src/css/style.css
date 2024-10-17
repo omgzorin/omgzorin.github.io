@@ -1,59 +1,153 @@
 /* /src/css/style.css */
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    color: #333;
+/* Universal reset to ensure consistent margins and paddings */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
-header {
-    background-color: #333;
+/* Body styling for the default light theme */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5; /* Light background for light theme */
+    color: #333;               /* Dark text for readability */
+    padding-top: 50px;         /* Space for the fixed header */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
+}
+
+/* Dark theme styling */
+body[data-theme="dark"] {
+    background-color: #121212; /* Dark background */
+    color: #e0e0e0;            /* Light text */
+}
+
+/* Header styling */
+.header {
+    height: 50px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(to right, #4B1F65, #00B0B9); /* Purple to Green gradient */
     color: white;
-    padding: 20px;
-    text-align: center;
+    text-indent: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999; /* Always on top */
 }
 
-h1 {
-    margin: 0;
+/* Adjust padding for the body so content doesn't overlap with the header */
+body {
+    padding-top: 50px;
 }
 
+/* Menu button (hamburger) styling */
+.menu {
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.menu > hr {
+    height: 2px;
+    width: 20px;
+    margin: 2px;
+    border: none;
+    background-color: white;
+}
+
+/* Dark theme for header and menu */
+body[data-theme="dark"] .header,
+body[data-theme="dark"] .menu > hr {
+    background-color: #333;  /* Dark background */
+}
+
+/* Article container styling */
 #articlesContainer {
     padding: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions for theme changes */
 }
 
+/* Article card styling */
 .article {
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
     padding: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
 }
 
+/* Article titles and content */
 .article h2 {
     color: #333;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
 }
 
 .article p {
     font-size: 16px;
     line-height: 1.5;
+    margin-bottom: 10px;
 }
 
+/* Read more button styling */
+.article .read-more {
+    background-color: #00B0B9;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.article .read-more:hover {
+    background-color: #008A91; /* Slightly darker on hover */
+}
+
+/* Dark theme for articles */
+body[data-theme="dark"] .article {
+    background-color: #333;  /* Dark background */
+    color: #e0e0e0;          /* Light text */
+}
+
+body[data-theme="dark"] .article h2 {
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .article .read-more {
+    background-color: #444;  /* Dark button */
+}
+
+/* Full article container styling */
 #fullArticleContainer {
     padding: 40px;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    display: none;
+    display: none; /* Hidden by default */
     position: absolute;
-    top: 0;
+    top: 50px; /* Offset to account for the fixed header */
     left: 0;
     width: 100%;
-    min-height: 100vh;
+    min-height: calc(100vh - 50px); /* Fill the viewport while accounting for the header */
     z-index: 1000;
+    line-height: 1.5;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Dark theme for full article */
+body[data-theme="dark"] #fullArticleContainer {
+    background-color: #222; /* Dark background */
+    color: #e0e0e0;         /* Light text */
+}
+
+/* Close full article button */
 #closeArticle {
     background-color: #ff4c4c;
     color: white;
@@ -61,8 +155,42 @@ h1 {
     border: none;
     cursor: pointer;
     border-radius: 4px;
+    margin-bottom: 20px;
 }
 
 #closeArticle:hover {
     background-color: #e43a3a;
+}
+
+/* Dark theme for close button */
+body[data-theme="dark"] #closeArticle {
+    background-color: #ff6666;
+}
+
+body[data-theme="dark"] #closeArticle:hover {
+    background-color: #ff4c4c;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .article {
+        padding: 15px;
+    }
+
+    #fullArticleContainer {
+        padding: 20px;
+    }
+
+    .header {
+        height: 60px; /* Slightly larger header on small screens */
+    }
+
+    .menu > hr {
+        width: 18px;
+    }
+}
+
+/* Utility classes */
+.hidden {
+    display: none !important;
 }
