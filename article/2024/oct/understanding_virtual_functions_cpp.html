@@ -1,61 +1,89 @@
 <div class="content">
+    <!-- Main Heading -->
     <h1>Understanding Virtual Functions in C++</h1>
 
+    <!-- Introduction Section -->
     <div class="section">
         <h2>Introduction</h2>
-        <p>A <strong>virtual function</strong> in C++ is a function that is defined in the base class and is intended to be overridden in derived classes. Virtual functions allow for dynamic binding, meaning that the function that gets called depends on the type of object pointed to, not the type of the pointer. This feature is a key part of achieving <em>polymorphism</em> in object-oriented programming.</p>
+        <p>
+            A <strong>virtual function</strong> in C++ is a function that is defined in a base class 
+            but can be overridden in derived classes. It allows for dynamic binding, where the function 
+            that gets executed depends on the actual object being pointed to at runtime, not the type 
+            of the pointer. This is crucial for achieving <em>polymorphism</em> in object-oriented programming.
+        </p>
     </div>
 
+    <!-- Explanation of Virtual Functions -->
+    <div class="section">
+        <h2>Why Use Virtual Functions?</h2>
+        <p>
+            Virtual functions enable derived classes to implement their own versions of functions defined 
+            in a base class, providing flexibility and dynamic behavior at runtime. This is essential in 
+            polymorphic situations where different derived objects respond uniquely to the same function call.
+        </p>
+    </div>
+
+    <!-- Example Section -->
     <div class="section">
         <h2>Example of Virtual Functions</h2>
-        <p>Below is an example demonstrating virtual functions in C++. Each Marvel hero is a class, and they perform different actions when the <code>action</code> method is called. Despite the different actions, they all share the same method signature, allowing polymorphism.</p>
+        <p>
+            Below is an example demonstrating virtual functions in C++. Each hero (derived class) has 
+            its own version of the `action()` method. When the base class pointer points to derived objects, 
+            it calls the appropriate version of `action()`.
+        </p>
 
-        <pre><code class="cpp">
+        <!-- C++ code example -->
+        <pre><code class="cpp code">
 #include &lt;iostream&gt;
 
+// Base class
 class MarvelHero {
 public:
-    // Virtual function to allow dynamic dispatch
+    // Virtual function allows dynamic dispatch
     virtual void action() {
         std::cout &lt;&lt; "The hero is ready for action!" &lt;&lt; std::endl;
     }
-    virtual ~MarvelHero() {} // Virtual destructor
+
+    // Virtual destructor ensures proper cleanup
+    virtual ~MarvelHero() {}
 };
 
+// Derived class: IronMan
 class IronMan : public MarvelHero {
 public:
-    // Override action() method for Iron Man
+    // Override the base class function
     void action() override {
         std::cout &lt;&lt; "Iron Man shoots repulsor beams!" &lt;&lt; std::endl;
     }
 };
 
+// Derived class: Hulk
 class Hulk : public MarvelHero {
 public:
-    // Override action() method for Hulk
     void action() override {
         std::cout &lt;&lt; "Hulk smashes everything!" &lt;&lt; std::endl;
     }
 };
 
+// Derived class: CaptainAmerica
 class CaptainAmerica : public MarvelHero {
 public:
-    // Override action() method for Captain America
     void action() override {
         std::cout &lt;&lt; "Captain America throws his shield!" &lt;&lt; std::endl;
     }
 };
 
+// Demonstration of polymorphism
 int main() {
-    // Create objects of derived classes
+    // Pointers to base class
     MarvelHero* hero1 = new IronMan();
     MarvelHero* hero2 = new Hulk();
     MarvelHero* hero3 = new CaptainAmerica();
 
-    // Call action method on each hero (demonstrates polymorphism)
-    hero1-&gt;action(); // Iron Man's action
-    hero2-&gt;action(); // Hulk's action
-    hero3-&gt;action(); // Captain America's action
+    // Call action method on each object
+    hero1-&gt;action(); // Calls IronMan's action
+    hero2-&gt;action(); // Calls Hulk's action
+    hero3-&gt;action(); // Calls Captain America's action
 
     // Clean up
     delete hero1;
@@ -66,6 +94,11 @@ int main() {
 }
         </code></pre>
 
-        <p>This code demonstrates how a virtual function works in C++. Each hero class overrides the <code>action()</code> method to perform a different action, but all use the same base class pointer to call the appropriate function. This is the essence of <strong>polymorphism</strong> in C++.</p>
+        <p>
+            This C++ example demonstrates how virtual functions work. The `action()` method is overridden in 
+            the derived classes. The `main()` function uses base class pointers to invoke `action()` on different 
+            hero objects, showcasing polymorphism where each derived object responds with its own implementation 
+            of `action()`.
+        </p>
     </div>
 </div>

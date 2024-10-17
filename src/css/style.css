@@ -8,8 +8,10 @@
 /* Body styling */
 body {
     font-family: Arial, sans-serif;
-    background-color: #121212; /* Dark background */
-    color: white; /* Light text for readability */
+    background-color: #121212;
+    /* Dark background */
+    color: white;
+    /* Light text for readability */
     padding-top: 50px;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -52,8 +54,9 @@ body {
 }
 
 .nav {
-    position: absolute;
-    top: 0;
+    z-index: 9999;
+    position: fixed;
+    top: 51px;
     left: 0;
     display: flex;
     align-items: center;
@@ -68,20 +71,33 @@ body {
     border-top: 2px solid black;
 }
 
-/* Article container styling */
-#articlesContainer {
-    padding: 20px;
-}
 
 /* Article card styling */
 .article {
-    background: #1c1c1c; /* Slightly lighter dark background */
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
     padding: 20px;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    background: rgb(29, 24, 24);
+    margin: 5px;
 }
+
+.buttonContainer {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+}
+
+.indexButton { width:150px; height:50px;
+background: #0089FF;
+border:none;
+transition-duration: 0.5s;
+}
+
+.indexButton:hover { 
+    transform: scale(1.1, 1.1);
+}
+
 
 /* Article titles and content */
 .article h2 {
@@ -110,7 +126,8 @@ body {
 /* Full article container styling */
 #fullArticleContainer {
     padding: 40px;
-    background-color: #1c1c1c; /* Consistent dark theme */
+    background-color: #000000;
+    /* Consistent dark theme */
     border-radius: 8px;
     display: none;
     position: absolute;
@@ -133,36 +150,17 @@ body {
     margin-bottom: 20px;
 }
 
-/* Responsive improvements */
-@media (max-width: 768px) {
-    .article {
-        padding: 15px;
-    }
-
-    #fullArticleContainer {
-        padding: 20px;
-    }
-
-    .header {
-        height: 60px;
-    }
-
-    .menu>hr {
-        width: 18px;
-    }
-
-    /* Make search input and button more responsive */
-    #searchInput {
-        width: 60%;
-        font-size: 14px;
-    }
-
-    /* Center-align articles on small screens */
-    .article {
-        margin: 0 auto;
-        width: 100%;
-    }
+.footer {
+    height: 50px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to right, #A100FF, #0a199e);
+    color: white;
 }
+
+/* Responsive improvements */
 
 /* Utility classes */
 .hidden {
@@ -179,22 +177,21 @@ body {
 }
 
 .content {
-    background-color: #121212; /* Dark background for the content area */
+    width: 100%;
+    padding: 10px;
+    background-color: #000000;
+    /* Dark background for the content area */
     color: white;
 }
 
 /* Style for the code block */
 .content pre {
-    background-color: #1e1e1e; /* Slightly lighter background for code */
+    background-color: #0f0f0f;
+    /* Slightly lighter background for code */
     padding: 15px;
     border-radius: 5px;
     overflow-x: auto;
     white-space: pre-wrap;
-    border: 2px solid #ffffff; /* White border to highlight code */
-}
-
-/* Code styling */
-.content code {
-    color: #ffffff;
-    font-size: 1.1rem;
+    border: 2px solid #ffffff;
+    /* White border to highlight code */
 }
