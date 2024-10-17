@@ -85,6 +85,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-around;
+    z-index: 9999;
 
 }
 
@@ -127,14 +128,14 @@ transition-duration: 0.5s;
 #fullArticleContainer {
     padding: 40px;
     background-color: #000000;
-    /* Consistent dark theme */
     border-radius: 8px;
     display: none;
-    position: absolute;
+    position: fixed; /* This makes sure it remains visible */
     top: 50px;
     left: 0;
     width: 100%;
-    min-height: calc(100vh - 50px);
+    height: calc(100vh - 50px); /* Adjust height to fit screen */
+    overflow-y: auto; /* Enable scrolling for long content */
     z-index: 1000;
     line-height: 1.5;
 }
@@ -151,6 +152,8 @@ transition-duration: 0.5s;
 }
 
 .footer {
+
+    z-index: 9999;
     height: 50px;
     width: 100%;
     display: flex;
