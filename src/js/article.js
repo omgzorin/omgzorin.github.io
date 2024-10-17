@@ -22,7 +22,7 @@ class ArticleManager {
             // Assuming index.js defines a global variable `articles`
             if (window.articles && window.articles.length > 0) {
                 this.articles = window.articles;
-                this.displayArticles(this.articles); // Show all articles initially
+                this.displayArticles(this.articles.reverse()); // Show articles in reverse order
             } else {
                 console.error("No articles found in index.js");
             }
@@ -129,6 +129,13 @@ class ArticleManager {
     closeFullArticle() {
         document.getElementById('fullArticleContainer').style.display = 'none'; // Hide full article
         document.getElementById('articlesContainer').style.display = 'block'; // Show articles list again
+        
+        // Clear the search query when closing the full article
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.value = ''; // Clear search input
+            this.debouncedSearch(''); // Trigger the search function with empty query
+        }
     }
 
     // Get month name by number
@@ -164,17 +171,15 @@ class ArticleManager {
         const nextButton = document.getElementById('nextButton');
         const prevButton = document.getElementById('prevButton');
 
-        if (this.currentMonth === 11 && this.currentYear === 2024) {
-            nextButton.disabled = true; // Disable next button on the last month of the year
-        } else {
-            nextButton.disabled = false;
-        }
+        // Check for future years beyond 2024
+        const currentDate = new Date();
+        const maxMonth = 11; // December
 
-        if (this.currentMonth === 0 && this.currentYear === 2024) {
-            prevButton.disabled = true; // Disable prev button on the first month of the year
-        } else {
-            prevButton.disabled = false;
-        }
+        // Disable next button at the end of the current year
+        nextButton.disabled = (this.currentYear >= currentDate.getFullYear() && this.currentMonth === maxMonth);
+
+        // Disable previous button at the beginning of the first year of articles
+        prevButton.disabled = (this.currentYear <= 2024 && this.currentMonth === 0);
     }
 
     // Custom fuzzy matching function (no external libraries)
